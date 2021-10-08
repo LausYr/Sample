@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
+using Sample.Entities.Validation.Validator;
 
 namespace Sample.Entities.Entities.Models
 {
@@ -29,7 +30,7 @@ namespace Sample.Entities.Entities.Models
 
         [ProtectedPersonalData]
         [Required(ErrorMessage = "Введите дату рождения")]
-        //[CustomValidation(typeof(AgeValidator), "IsValid")]
+        [CustomValidation(typeof(AgeValidator), "IsValid")]
         public DateTime? DateOfBirth { get; set; }
 
         [ProtectedPersonalData]
@@ -47,8 +48,8 @@ namespace Sample.Entities.Entities.Models
         [NotMapped]
         [MaxLength(256, ErrorMessage = "Длина поля Password 256 символов")]
         [MinLength(6, ErrorMessage = "Пароль должен содержать минимум 6 символов")]
-        //[CustomValidation(typeof(PasswordValidatorHasChar), "IsValid")]
-        //[CustomValidation(typeof(PasswordValidatorHasNumberSpecial), "IsValid")]
+        [CustomValidation(typeof(PasswordValidatorHasChar), "IsValid")]
+        [CustomValidation(typeof(PasswordValidatorHasNumberSpecial), "IsValid")]
         [Required(ErrorMessage = "Введите пароль")]
         public string Password { get; set; }
 
