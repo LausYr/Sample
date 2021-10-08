@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
 using Sample.Entities.Validation.Validator;
 
-namespace Sample.Entities.Entities.Models
+namespace Sample.Entities.Models
 {
     public class ApplicationUser : IdentityUser
     {
