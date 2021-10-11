@@ -7,58 +7,60 @@ using Microsoft.Extensions.Hosting;
 using System;
 using System.Linq;
 
-
-public static class MigrationManager
+namespace Sample.OAuth.Extensions
 {
-    public static IHost MigrateDatabase(this IHost host)
+    public static class MigrationManager
     {
-        using (var scope = host.Services.CreateScope())
+        public static IHost MigrateDatabase(this IHost host)
         {
-            scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
-            using (var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>())
+            using (var scope = host.Services.CreateScope())
             {
-                try
+                scope.ServiceProvider.GetRequiredService<PersistedGrantDbContext>().Database.Migrate();
+                using (var context = scope.ServiceProvider.GetRequiredService<ConfigurationDbContext>())
                 {
-                    context.Database.Migrate();
-                    if (!context.Clients.Any())
+                    try
                     {
-                        foreach (var client in InMemoryConfig.GetClients())
+                        context.Database.Migrate();
+                        if (!context.Clients.Any())
                         {
-                            context.Clients.Add(client.ToEntity());
+                            foreach (var client in InMemoryConfig.GetClients())
+                            {
+                                context.Clients.Add(client.ToEntity());
+                            }
+                            context.SaveChanges();
                         }
-                        context.SaveChanges();
+                        if (!context.IdentityResources.Any())
+                        {
+                            foreach (var resource in InMemoryConfig.GetIdentityResources())
+                            {
+                                context.IdentityResources.Add(resource.ToEntity());
+                            }
+                            context.SaveChanges();
+                        }
+                        if (!context.ApiScopes.Any())
+                        {
+                            foreach (var apiScope in InMemoryConfig.GetApiScopes())
+                            {
+                                context.ApiScopes.Add(apiScope.ToEntity());
+                            }
+                            context.SaveChanges();
+                        }
+                        if (!context.ApiResources.Any())
+                        {
+                            foreach (var resource in InMemoryConfig.GetApiResources())
+                            {
+                                context.ApiResources.Add(resource.ToEntity());
+                            }
+                            context.SaveChanges();
+                        }
                     }
-                    if (!context.IdentityResources.Any())
+                    catch (Exception ex)
                     {
-                        foreach (var resource in InMemoryConfig.GetIdentityResources())
-                        {
-                            context.IdentityResources.Add(resource.ToEntity());
-                        }
-                        context.SaveChanges();
+                        throw;
                     }
-                    if (!context.ApiScopes.Any())
-                    {
-                        foreach (var apiScope in InMemoryConfig.GetApiScopes())
-                        {
-                            context.ApiScopes.Add(apiScope.ToEntity());
-                        }
-                        context.SaveChanges();
-                    }
-                    if (!context.ApiResources.Any())
-                    {
-                        foreach (var resource in InMemoryConfig.GetApiResources())
-                        {
-                            context.ApiResources.Add(resource.ToEntity());
-                        }
-                        context.SaveChanges();
-                    }
-                }
-                catch (Exception ex)
-                {
-                    throw;
                 }
             }
+            return host;
         }
-        return host;
     }
 }
