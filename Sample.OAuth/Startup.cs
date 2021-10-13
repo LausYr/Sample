@@ -48,7 +48,7 @@ namespace Sample.OAuth
                 options.Events.RaiseSuccessEvents = true;
                 options.EmitStaticAudienceClaim = true;
             })
-                  .AddDeveloperSigningCredential() //продакшн AddSigningCredentials и предоставить действующий сертификат
+                  .AddDeveloperSigningCredential() // AddSigningCredentials and provide a valid certificate
                   .AddAspNetIdentity<ApplicationUser>()
                   .AddConfigurationStore(opt =>
                   {
