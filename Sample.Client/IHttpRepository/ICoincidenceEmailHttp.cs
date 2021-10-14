@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using Sample.Entities.Validation.Models;
 
-namespace Sample.Client.HttpRepository
+namespace Sample.Client.IHttpRepository
 {
     public interface ICoincidenceEmailHttp
     {
