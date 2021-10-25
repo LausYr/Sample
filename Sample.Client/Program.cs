@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Sample.Client.HttpRepository;
 using Sample.Client.IHttpRepository;
+using Syncfusion.Blazor;
 
 namespace Sample.Client
 {
@@ -13,6 +14,8 @@ namespace Sample.Client
     {
         public static async Task Main(string[] args)
         {
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("");
+
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
@@ -26,6 +29,8 @@ namespace Sample.Client
             builder.Services.AddScoped<IRegistrationHttp, RegistrationHttp>();
             builder.Services.AddScoped<ICoincidencePhoneNumberHttp, CoincidencePhoneNumberHttp>();
             builder.Services.AddScoped<ICoincidenceEmailHttp, CoincidenceEmailHttp>();
+
+            builder.Services.AddSyncfusionBlazor();
 
             await builder.Build().RunAsync();
         }
