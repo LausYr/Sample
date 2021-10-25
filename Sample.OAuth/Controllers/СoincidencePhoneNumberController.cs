@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Sample.Entities.Validation.Models;
 using Sample.OAuth.Data;
 
-namespace Intelzaim.OAuth.Controllers
+namespace Sample.OAuth.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -15,9 +15,10 @@ namespace Intelzaim.OAuth.Controllers
         {
             _db = db;
         }
-        public async Task<ActionResult<string>> Post([FromBody] PhoneNumberValidModel model)
+        public async Task<ActionResult<string>> Post([FromBody] PhoneNumberValidModel PhoneNumber)
         {
-            var test = await Task.Run(() => _db.Accounts.Any(a => a.PhoneNumber == model.PhoneNumber));
+            PhoneNumber.Value= '7' + PhoneNumber.Value.Remove(0, 1);
+            var test = await Task.Run(() => _db.Accounts.Any(a => a.PhoneNumber == PhoneNumber.Value));
             if (test)
                 return BadRequest("Данный номер телефона уже зарегестрирован");
             else

@@ -6,7 +6,7 @@ using Sample.Entities.Models;
 using Microsoft.AspNetCore.Identity;
 using Sample.OAuth.Data;
 
-namespace Intelzaim.OAuth.Controllers
+namespace Sample.OAuth.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

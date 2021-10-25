@@ -2,6 +2,6 @@
 {
     public class PhoneNumberValidModel
     {
-        public string PhoneNumber { get; set; }
+        public string Value { get; set; }
     }
 }
